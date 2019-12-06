@@ -17,8 +17,8 @@ jobs:
         run: docker login docker.pkg.github.com -u github-actions -p ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker Tag
-        run: docker tag docker.pkg.github.com/${REPOSITORY}:latest docker.pkg.github.com/${REPOSITORY}:${GITHUB_SHA}
+        run: docker tag docker.pkg.github.com/${GITHUB_REPOSITORY}:latest docker.pkg.github.com/${GITHUB_REPOSITORY}:${GITHUB_SHA}
 
       - name: Docker Push
-        run: docker push docker.pkg.github.com/${REPOSITORY}
+        run: docker push docker.pkg.github.com/${GITHUB_REPOSITORY}
 
