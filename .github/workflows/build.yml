@@ -5,13 +5,13 @@ on:
 name: Docker Build
 
 jobs:
-  schemaspy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
 
       - name: Docker Build
-        run: docker build -t docker.pkg.github.com/${REPOSITORY}:latest .
+        run: docker build -t docker.pkg.github.com/${GITHUB_REPOSITORY}:latest .
 
       - name: Docker Login
         run: docker login docker.pkg.github.com -u github-actions -p ${{ secrets.GITHUB_TOKEN }}
