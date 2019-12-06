@@ -11,14 +11,14 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Docker Build
-        run: docker build -t docker.pkg.github.com/${GITHUB_REPOSITORY}:latest .
+        run: docker build -t docker.pkg.github.com/${GITHUB_REPOSITORY}/app:latest .
 
       - name: Docker Login
         run: docker login docker.pkg.github.com -u github-actions -p ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker Tag
-        run: docker tag docker.pkg.github.com/${GITHUB_REPOSITORY}:latest docker.pkg.github.com/${GITHUB_REPOSITORY}:${GITHUB_SHA}
+        run: docker tag docker.pkg.github.com/${GITHUB_REPOSITORY}/app:latest docker.pkg.github.com/${GITHUB_REPOSITORY}/app:${GITHUB_SHA}
 
       - name: Docker Push
-        run: docker push docker.pkg.github.com/${GITHUB_REPOSITORY}
+        run: docker push docker.pkg.github.com/${GITHUB_REPOSITORY}/app
 
