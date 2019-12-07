@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app
+  name: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app
+  strategy:
+    rollingUpdate:
+      maxSurge: 150%
+      maxUnavailable: 0%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - image: "grandcolline/iap_test:latest"
+          imagePullPolicy: Always
+          name: app
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /hello
+              port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: app
+  type: NodePort
+
