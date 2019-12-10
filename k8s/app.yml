@@ -20,7 +20,7 @@ spec:
         app: app
     spec:
       containers:
-        - image: "grandcolline/iap_test:latest"
+        - image: "grandcolline/iap-test:latest"
           imagePullPolicy: Always
           name: app
           ports:
