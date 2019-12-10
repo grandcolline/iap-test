@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
 func main() {
 	fmt.Println("server start...")
 	http.HandleFunc("/hello", helloHandler)
 	http.HandleFunc("/user", userHandler)
+	http.HandleFunc("/auth", userHandler)
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -19,8 +21,11 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 
 func userHandler(w http.ResponseWriter, r *http.Request) {
 	mail := r.Header.Get("X-Goog-Authenticated-User-Email")
-	mail2 := r.Header.Get("x-goog-authenticated-user-email")
 	id := r.Header.Get("X-Goog-Authenticated-User-ID")
-	id2 := r.Header.Get("x-goog-authenticated-user-id")
-	fmt.Fprint(w, "ID: "+id+"/"+id2+"\nmail: "+mail+"/"+mail2)
+	fmt.Fprint(w, "ID: "+id+"\nmail: "+mail)
+}
+
+func authHandler(w http.ResponseWriter, r *http.Request) {
+	auth := false
+	fmt.Fprint(w, "auth: "+strconv.FormatBool(auth))
 }
