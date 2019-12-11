@@ -1,4 +1,4 @@
-module github.com/grandcolline/iap_test
+module github.com/grandcolline/iap-test
 
 go 1.13
 
