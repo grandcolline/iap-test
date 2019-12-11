@@ -26,7 +26,7 @@ func main() {
 
 // helloHandler return "Hello world!"
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello World!")
+	fmt.Fprint(w, "Hello World!!")
 }
 
 func userHandler(w http.ResponseWriter, r *http.Request) {
@@ -36,13 +36,13 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func authHandler(w http.ResponseWriter, r *http.Request) {
-	var cfg *jwt.Config
+	// var cfg *jwt.Config
 	token := r.Header.Get("X-Goog-IAP-JWT-Assertion")
 
-	// publicKeys, _ := jwt.FetchPublicKeys()
-	// cfg := &jwt.Config{
-	// 	PublicKeys: publicKeys,
-	// }
+	publicKeys, _ := jwt.FetchPublicKeys()
+	cfg := &jwt.Config{
+		PublicKeys: publicKeys,
+	}
 
 	if err := jwt.ValidateRequestClaims(r, cfg); err != nil {
 		fmt.Fprint(w, "auth: NG"+"\ntoken: "+token)
