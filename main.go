@@ -4,15 +4,15 @@ import (
 	"fmt"
 	// "time"
 	"net/http"
-	"strconv"
+	// "strconv"
 	// "os"
 	// "encoding/json"
 
 	// jwt "github.com/dgrijalva/jwt-go"
-	// "github.com/imkira/gcp-iap-auth/jwt"
+	"github.com/imkira/gcp-iap-auth/jwt"
 )
 
-const(
+const (
 	PublicKeysURL = "https://www.gstatic.com/iap/verify/public_key"
 )
 
@@ -36,38 +36,35 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func authHandler(w http.ResponseWriter, r *http.Request) {
-	auth := false
+	var cfg *jwt.Config
 	token := r.Header.Get("X-Goog-IAP-JWT-Assertion")
-	// audience := os.Getenv("audience")
 
-	// aud, _ := jwt.ParseAudience(audience)
 	// publicKeys, _ := jwt.FetchPublicKeys()
 	// cfg := &jwt.Config{
-	// 	Audiences:  []*jwt.Audience{aud},
 	// 	PublicKeys: publicKeys,
 	// }
 
-	// if err := jwt.ValidateRequestClaims(r, cfg); err != nil {
-	// 	w.WriteHeader(http.StatusUnauthorized)
-	// } else {
-	// 	w.WriteHeader(http.StatusOK)
-	// }
+	if err := jwt.ValidateRequestClaims(r, cfg); err != nil {
+		fmt.Fprint(w, "auth: NG"+"\ntoken: "+token)
+	} else {
+		fmt.Fprint(w, "auth: OK"+"\ntoken: "+token)
+	}
 
-	fmt.Fprint(w, "auth: "+strconv.FormatBool(auth)+"\ntoken:" + token)
+	// fmt.Fprint(w, "auth: "+strconv.FormatBool(auth)+"\ntoken:" + token)
 }
 
 // type Claims struct {
 // 	jwt.StandardClaims
 // 	Email string `json:"email,omitempty"`
-// 
+//
 // 	cfg *Config
 // }
-// 
+//
 // type Config struct {
 // 	PublicKeys     map[string]PublicKey
 // 	MatchAudiences *regexp.Regexp
 // }
-// 
+//
 // // fetchPublicKeys 公開鍵の取得
 // func fetchPublicKeys() (map[string][]byte, error) {
 // 	// get publickey
@@ -77,7 +74,7 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 // 		return nil, err
 // 	}
 // 	defer r.Body.Close()
-// 
+//
 // 	// format publickey
 // 	var skeys map[string]string
 // 	if err := json.NewDecoder(r.Body).Decode(&skeys); err != nil {
