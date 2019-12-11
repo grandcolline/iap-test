@@ -1,9 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-#  annotations:
-#    kubernetes.io/ingress.global-static-ip-name: staging-ingress
-#    networking.gke.io/managed-certificates: certificate
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: iap-test-ingress # ここに静的IPの名前を入れる
+    networking.gke.io/managed-certificates: certificate
+    beta.cloud.google.com/backend-config: '{"default": "config-default"}'
   name: ingress
 spec:
   rules:
@@ -13,3 +14,12 @@ spec:
               serviceName: app
               servicePort: 8080
             path: /*
+
+---
+apiVersion: networking.gke.io/v1beta1
+kind: ManagedCertificate
+metadata:
+  name: certificate
+spec:
+  domains:
+    - iap-test.dev.grandcolline.com # ここにドメイン名を入れる

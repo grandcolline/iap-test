@@ -23,6 +23,9 @@ spec:
         - image: "grandcolline/iap-test:latest"
           imagePullPolicy: Always
           name: app
+          env:
+            - name: AUDIENCE
+              value: /projects/99999999999/global/backendServices/9999999999999999999
           ports:
             - containerPort: 8080
           readinessProbe:
