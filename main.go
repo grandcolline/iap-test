@@ -50,6 +50,9 @@ func authHandler(w http.ResponseWriter, r *http.Request) {
 			return nil, errors.New("Unexpected signing method")
 		}
 		// get public key
+		if _, ok := token.Header["kid"].(string); !ok {
+			return nil, errors.New("not found kid")
+		}
 		rawKey, err := fetchPublicKey(token.Header["kid"].(string))
 		if err != nil {
 			return nil, err
